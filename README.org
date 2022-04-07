@@ -1,0 +1,28 @@
+#+TITLE: Turn checker
+
+Checks your TURN/STUN server deployment.
+
+** Building
+
+#+BEGIN_SRC sh
+docker build -t wiktork/turn-checker .
+#+END_SRC
+
+** Running
+
+Set these environment variables:
+  - =TURN_HOST= - target host to check,
+  - =TURN_PORT= - port of the TURN service,
+  - =TURN_SECRET= - symmetric secret that the service uses.
+
+#+BEGIN_SRC sh
+docker run --rm -it -e TURN_HOST=turn.example.com -e TURN_PORT=3478 -e TURN_SECRET=test wiktork/turn-checker
+#+END_SRC
+
+** Details
+
+This image uses stock =prosody.cfg.lua= file extracted from the
+Prosody image with minor additions:
+  - =turn_external= module has been enabled,
+  - TURN settings are being read from the environment variables
+    through =os.getenv=.
